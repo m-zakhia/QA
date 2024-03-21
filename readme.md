@@ -101,6 +101,12 @@ This framework serves as an essential tool for developers and testers involved i
             <artifactId>serenity-cucumber</artifactId>
             <version>${serenity.cucumber.version}</version>
         </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-rest-assured</artifactId>
+            <version>${serenity.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
 ```
