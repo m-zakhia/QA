@@ -58,21 +58,6 @@ This framework serves as an essential tool for developers and testers involved i
     </properties>
 
     <dependencies>
-        <!-- Cucumber -->
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>7.0.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <version>7.0.0</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- JUnit -->
         <dependency>
             <groupId>junit</groupId>
