@@ -177,4 +177,15 @@ Feature: Validate USD exchange rate API responses
     Given I make a request to the USD exchange rate API with Serenity
     When I receive the response
     Then the response should match the expected JSON schema
+```
+3. **Understanding the Gherkin Syntax**
+
+Given: Sets up the context for the scenario.
+When: Describes the action that triggers the scenario.
+Then: Specifies the expected outcome or result.
+And: Used for adding additional steps while maintaining readability.
+
+4. **Next Steps**
+
+After defining the features and scenarios, the next step involves implementing the step definitions in Java, integrating Serenity to enhance the testing process. These definitions will contain the actual code to interact with the API and assert the expected outcomes, leveraging Serenity's capabilities for richer test context and reporting.
 
