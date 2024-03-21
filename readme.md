@@ -68,7 +68,7 @@ Follow these detailed steps to set up your Java project using IntelliJ IDEA and 
     <scope>test</scope>
   </dependency>
 </dependencies>
-
+''
 - For Gradle: Open the build.gradle file and add dependencies. Here’s an example for Gradle:
 dependencies {
   testImplementation 'io.cucumber:cucumber-java:7.0.0'
