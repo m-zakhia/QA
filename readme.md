@@ -178,14 +178,81 @@ Feature: Validate USD exchange rate API responses
     When I receive the response
     Then the response should match the expected JSON schema
 ```
-3. **Understanding the Gherkin Syntax**
+## 3. Understanding the Gherkin Syntax
 
 Given: Sets up the context for the scenario.
 When: Describes the action that triggers the scenario.
 Then: Specifies the expected outcome or result.
 And: Used for adding additional steps while maintaining readability.
 
-4. **Next Steps**
+## 4. Next Steps
 
 After defining the features and scenarios, the next step involves implementing the step definitions in Java, integrating Serenity to enhance the testing process. These definitions will contain the actual code to interact with the API and assert the expected outcomes, leveraging Serenity's capabilities for richer test context and reporting.
 
+# Step 4: Implementing Step Definitions in Java with Serenity
+
+In Step 4, we'll implement the step definitions in Java for the scenarios defined in the `USDRateValidation.feature` file, integrating Serenity to enhance the testing process.
+
+## 1. Create Step Definitions Java File
+
+- **Location**: In the `src/test/java/com/example/currencyapitest/steps` directory, create a new Java class named `USDRateValidationSteps`.
+
+## 2. Implement Step Definitions
+
+- Implement methods for each step in your feature file within `USDRateValidationSteps.java`. These methods should be annotated with `@Given`, `@When`, `@Then`, and `@And` from Cucumber to connect the Java code to the Gherkin steps.
+
+### Step Definitions Template
+
+```java
+package com.example.currencyapitest.steps;
+
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.And;
+import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.*;
+import net.serenitybdd.rest.SerenityRest;
+
+public class USDRateValidationSteps {
+
+    private static final String BASE_URL = "https://open.er-api.com/v6/latest/USD";
+    private Response response;
+
+    @Given("I make a request to the USD exchange rate API")
+    public void iMakeARequestToTheUSDExchangeRateAPI() {
+        response = SerenityRest.given().get(BASE_URL);
+    }
+
+    @When("I receive the response")
+    public void iReceiveTheResponse() {
+        // Additional response processing can be implemented here if needed
+    }
+
+    @Then("the status code should be {int}")
+    public void theStatusCodeShouldBe(int statusCode) {
+        response.then().statusCode(statusCode);
+    }
+
+    @And("the response status should indicate success")
+    public void theResponseStatusShouldIndicateSuccess() {
+        response.then().body("result", equalTo("success"));
+    }
+
+    @And("the USD to AED rate should be between {double} and {double}")
+    public void theUSDToAEDRateShouldBeBetweenAnd(double minRate, double maxRate) {
+        response.then().body("rates.AED", allOf(greaterThanOrEqualTo(minRate), lessThanOrEqualTo(maxRate)));
+    }
+
+    // Implement other steps similarly...
+}
+```
+## 3. Connect Steps to Feature File
+
+The Java methods are connected to the steps in your feature file via the annotations. Cucumber, integrated with Serenity, will execute the Java code for each step during the test run.
+
+## 4. Running Your Tests
+
+After implementing the step definitions, run the TestRunner class to execute your feature file scenarios. Serenity enhances the output, showing which steps passed or failed and providing detailed reports.
