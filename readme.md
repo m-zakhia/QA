@@ -1,6 +1,22 @@
-# Setting Up a Java Project with IntelliJ IDEA, Maven/Gradle, and Serenity
+# Project Title:  USD Exchange Rate API Test Framework
 
-Follow these detailed steps to set up your Java project using IntelliJ IDEA and Maven or Gradle for your test framework, along with Serenity:
+## Description
+
+This project, "USD Exchange Rate API Test Framework," is a sophisticated testing suite designed to validate the responses from the USD exchange rate API. Leveraging the power of RestAssured and Serenity, this framework aims to provide a thorough assessment of the API's functionality, focusing on the USD to AED exchange rate.
+
+Key features of this test framework include:
+
+- **API Response Validation**: Ensures successful API calls and checks for valid response structures and data, employing RestAssured for HTTP interactions.
+- **Response Status Verification**: Incorporates checks for various API response statuses to ensure the API's robust error handling and success message conveyance.
+- **Rate Validation**: Specifically tests the USD to AED rate, ensuring the values fall within the expected range, thus verifying the API's currency conversion accuracy.
+- **Performance Checks**: Includes validations for the API's response time, ensuring the API's performance is within acceptable thresholds.
+- **Data Integrity**: Validates the presence of essential response elements like timestamps and the correct count of currency pairs, ensuring comprehensive data delivery.
+- **Schema Compliance**: Utilizes JSON schema validation to confirm the API's response adheres to the defined structure, ensuring consistency and reliability in the data provided.
+- **Extensibility**: Designed with modularity in mind, allowing easy expansion to include more currencies or additional API endpoints.
+- **Enhanced Reporting**: Integrates Serenity for enriched reporting and test documentation, providing clear insights into test executions and outcomes, facilitating continuous integration and deployment processes.
+
+This framework serves as an essential tool for developers and testers involved in the maintenance and enhancement of the USD exchange rate API, providing a solid foundation for ensuring the API's reliability and accuracy in delivering critical financial data.
+
 
 ## Step 1: Setting Up the Project in IntelliJ IDEA
 
@@ -15,7 +31,7 @@ Follow these detailed steps to set up your Java project using IntelliJ IDEA and 
    - Click "Next" to proceed.
 
 3. **Configure Project Details**:
-   - Enter your project's "GroupId" (e.g., com.example) and "ArtifactId" (e.g., currency-api-test).
+   - Enter your project's "GroupId" (e.g., cloud.digitalchain) and "ArtifactId" (e.g., currency-api-test).
    - Define the project name and location.
    - Click "Finish" to create the project.
 
@@ -195,7 +211,7 @@ In Step 4, we'll implement the step definitions in Java for the scenarios define
 
 ## 1. Create Step Definitions Java File
 
-- **Location**: In the `src/test/java/com/example/currencyapitest/steps` directory, create a new Java class named `USDRateValidationSteps`.
+- **Location**: In the `src/test/java/cloud/digitalchain/currencyapitest/steps` directory, create a new Java class named `USDRateValidationSteps`.
 
 ## 2. Implement Step Definitions
 
@@ -204,7 +220,7 @@ In Step 4, we'll implement the step definitions in Java for the scenarios define
 ### Step Definitions Template
 
 ```java
-package com.example.currencyapitest.steps;
+package cloud.digitalchain.currencyapitest.steps;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
@@ -256,3 +272,65 @@ The Java methods are connected to the steps in your feature file via the annotat
 ## 4. Running Your Tests
 
 After implementing the step definitions, run the TestRunner class to execute your feature file scenarios. Serenity enhances the output, showing which steps passed or failed and providing detailed reports.
+
+# Step 5: Implementing Tests and Validations for the USD Exchange Rate API
+
+In Step 5, we'll implement tests and validations for the USD exchange rate API, ensuring our tests cover the provided acceptance criteria using RestAssured and Serenity.
+
+## 1. Validating the API Call and Response
+
+- Ensure the API call is successful and returns a valid response. The status code check is already implemented in the step definitions. Additionally, verify that the response body is not empty.
+
+## 2. Checking the Response Status
+
+- Implement steps to check if the response status indicates success or other statuses like FAILURE.
+
+## 3. Validating the USD to AED Rate
+
+- Include a method in the step definitions to verify the USD to AED rate is within the specified range (3.6 - 3.7), ensuring the rate is present and within the expected range.
+
+## 4. Response Time Validation
+
+- Add a step definition to validate that the API response time is less than the specified threshold (e.g., 3 seconds).
+
+## 5. Timestamp Verification
+
+- Verify that the API response includes a timestamp, checking for its presence and possibly validating its format.
+
+## 6. Currency Pairs Count Validation
+
+- Confirm that the API returns data for 162 currency pairs by asserting the size of the rates object in the JSON response.
+
+## 7. JSON Schema Validation
+
+- Utilize RestAssured's schema validation feature to ensure the API response matches the expected JSON schema. Generate a JSON schema from the API response and use it in a step definition.
+
+## 8. Implementing Additional Step Definitions
+
+Here are some example step definitions for additional validations:
+
+```java
+@Then("the API response time should be less than {int} seconds")
+public void theAPIResponseTimeShouldBeLessThanSeconds(int seconds) {
+    response.then().time(lessThan(seconds * 1000L));
+}
+
+@And("the response should include a timestamp")
+public void theResponseShouldIncludeATimestamp() {
+    response.then().body("time_last_update_unix", notNullValue());
+}
+
+@And("the response should contain {int} currency pairs")
+public void theResponseShouldContainCurrencyPairs(int count) {
+    response.then().body("rates.size()", equalTo(count));
+}
+
+@And("the response should match the expected JSON schema")
+public void theResponseShouldMatchTheExpectedJSONSchema() {
+    response.then().body(matchesJsonSchemaInClasspath("expected-schema.json"));
+}
+```
+## 9. Running the Tests
+
+Execute the TestRunner class to run the additional validations. Verify that all scenarios pass and align with the acceptance criteria.
+
